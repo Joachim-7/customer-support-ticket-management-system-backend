@@ -1,0 +1,51 @@
+-- Seed data for the Customer Support Ticket Management System (Step 0).
+-- Run ONCE on empty tables, after starting the application at least once so Hibernate has created them.
+-- psql -U postgres -d customer_support_db -f seed.sql
+-- To start over: TRUNCATE resolution_note, ticket, support_agent_support_area, support_agent, customer, workstation, support_area CASCADE;
+
+INSERT INTO support_area (id, name) VALUES
+  ('10000000-0000-0000-0000-000000000001', 'Billing'),
+  ('10000000-0000-0000-0000-000000000002', 'Technical Support'),
+  ('10000000-0000-0000-0000-000000000003', 'Network Faults'),
+  ('10000000-0000-0000-0000-000000000004', 'Account Recovery');
+
+INSERT INTO workstation (id, station_number, name) VALUES
+  ('20000000-0000-0000-0000-000000000001', 1, 'Help Desk A'),
+  ('20000000-0000-0000-0000-000000000002', 2, 'Help Desk B'),
+  ('20000000-0000-0000-0000-000000000003', 3, 'Network Operations'),
+  ('20000000-0000-0000-0000-000000000004', 4, 'Spare Desk');
+
+INSERT INTO customer (id, first_name, last_name, account_number, email, phone) VALUES
+  ('40000000-0000-0000-0000-000000000001', 'Alice', 'Nkusi', 'ACC-10234', 'alice.nkusi@example.rw', '+250788100001'),
+  ('40000000-0000-0000-0000-000000000002', 'Bob', 'Nkusi', 'ACC-10235', 'bob.nkusi@example.rw', '+250788100002'),
+  ('40000000-0000-0000-0000-000000000003', 'Claire', 'Mutoni', 'ACC-10236', 'claire.mutoni@example.rw', '+250788100003'),
+  ('40000000-0000-0000-0000-000000000004', 'David', 'Habineza', 'ACC-10237', 'david.habineza@example.rw', '+250788100004'),
+  ('40000000-0000-0000-0000-000000000005', 'Esther', 'Ingabire', 'ACC-10238', 'esther.ingabire@example.rw', '+250788100005');
+
+INSERT INTO support_agent (id, first_name, last_name, email, workstation_id) VALUES
+  ('30000000-0000-0000-0000-000000000001', 'Grace', 'Uwase', 'grace.uwase@support.rw', '20000000-0000-0000-0000-000000000001'),
+  ('30000000-0000-0000-0000-000000000002', 'Eric', 'Habimana', 'eric.habimana@support.rw', '20000000-0000-0000-0000-000000000002'),
+  ('30000000-0000-0000-0000-000000000003', 'Diane', 'Mukamana', 'diane.mukamana@support.rw', '20000000-0000-0000-0000-000000000003');
+
+INSERT INTO support_agent_support_area (support_agent_id, support_area_id) VALUES
+  ('30000000-0000-0000-0000-000000000001', '10000000-0000-0000-0000-000000000001'),
+  ('30000000-0000-0000-0000-000000000001', '10000000-0000-0000-0000-000000000002'),
+  ('30000000-0000-0000-0000-000000000002', '10000000-0000-0000-0000-000000000003'),
+  ('30000000-0000-0000-0000-000000000003', '10000000-0000-0000-0000-000000000001');
+
+INSERT INTO ticket (id, opened_date, status, subject, priority, customer_id, agent_id) VALUES
+  ('50000000-0000-0000-0000-000000000001', '2026-10-05', 'RESOLVED', 'Double charge on invoice', 'High', '40000000-0000-0000-0000-000000000001', '30000000-0000-0000-0000-000000000001'),
+  ('50000000-0000-0000-0000-000000000002', '2026-10-12', 'RESOLVED', 'Cannot log in to portal', 'Medium', '40000000-0000-0000-0000-000000000001', '30000000-0000-0000-0000-000000000003'),
+  ('50000000-0000-0000-0000-000000000003', '2026-10-20', 'WITHDRAWN', 'Refund request', 'Low', '40000000-0000-0000-0000-000000000002', '30000000-0000-0000-0000-000000000001'),
+  ('50000000-0000-0000-0000-000000000004', '2026-10-20', 'IN_PROGRESS', 'Slow internet connection', 'High', '40000000-0000-0000-0000-000000000003', '30000000-0000-0000-0000-000000000001'),
+  ('50000000-0000-0000-0000-000000000005', '2026-10-26', 'OPEN', 'Router keeps rebooting', 'Urgent', '40000000-0000-0000-0000-000000000001', '30000000-0000-0000-0000-000000000002'),
+  ('50000000-0000-0000-0000-000000000006', '2026-10-28', 'OPEN', 'Update billing address', 'Low', '40000000-0000-0000-0000-000000000004', '30000000-0000-0000-0000-000000000003'),
+  ('50000000-0000-0000-0000-000000000007', '2026-11-02', 'IN_PROGRESS', 'No signal in the office', 'High', '40000000-0000-0000-0000-000000000003', '30000000-0000-0000-0000-000000000002'),
+  ('50000000-0000-0000-0000-000000000008', '2026-11-05', 'OPEN', 'Account locked after failed attempts', 'Medium', '40000000-0000-0000-0000-000000000001', '30000000-0000-0000-0000-000000000001'),
+  ('50000000-0000-0000-0000-000000000009', '2026-11-09', 'RESOLVED', 'VPN connection drops', 'Medium', '40000000-0000-0000-0000-000000000005', '30000000-0000-0000-0000-000000000002'),
+  ('50000000-0000-0000-0000-000000000010', '2026-11-12', 'OPEN', 'Invoice shows the wrong plan', 'Medium', '40000000-0000-0000-0000-000000000002', '30000000-0000-0000-0000-000000000003');
+
+INSERT INTO resolution_note (id, resolution_type, description, minutes_spent, resolved_date, ticket_id) VALUES
+  ('60000000-0000-0000-0000-000000000001', 'Billing correction', 'Duplicate charge reversed and invoice reissued', 30, '2026-10-06', '50000000-0000-0000-0000-000000000001'),
+  ('60000000-0000-0000-0000-000000000002', 'Password reset', 'Reset done and customer notified by SMS', 15, '2026-10-12', '50000000-0000-0000-0000-000000000002'),
+  ('60000000-0000-0000-0000-000000000003', 'Network configuration', 'VPN profile reinstalled and tested', 45, '2026-11-09', '50000000-0000-0000-0000-000000000009');
