@@ -1,7 +1,3 @@
--- Seed data for the Customer Support Ticket Management System (Step 0).
--- Run ONCE on empty tables, after starting the application at least once so Hibernate has created them.
--- psql -U postgres -d customer_support_db -f seed.sql
--- To start over: TRUNCATE resolution_note, ticket, support_agent_support_area, support_agent, customer, workstation, support_area CASCADE;
 
 INSERT INTO support_area (id, name) VALUES
   ('10000000-0000-0000-0000-000000000001', 'Billing'),
