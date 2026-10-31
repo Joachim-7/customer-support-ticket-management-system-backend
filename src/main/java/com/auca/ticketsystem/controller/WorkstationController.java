@@ -58,7 +58,7 @@ public class WorkstationController {
         return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
     }
 
-    // C2
+    
     @GetMapping("/free")
     public ResponseEntity<List<Workstation>> free() {
         return new ResponseEntity<>(workstationService.getFree(), HttpStatus.OK);

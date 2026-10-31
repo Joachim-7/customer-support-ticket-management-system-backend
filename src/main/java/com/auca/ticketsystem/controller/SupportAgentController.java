@@ -58,13 +58,13 @@ public class SupportAgentController {
         return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
     }
 
-    // C1
+    
     @GetMapping("/by-support-area")
     public ResponseEntity<List<SupportAgent>> bySupportArea(@RequestParam String name) {
         return new ResponseEntity<>(supportAgentService.getBySupportArea(name), HttpStatus.OK);
     }
 
-    // D3
+    
     @PutMapping("/{supportAgentId}/support-areas/{supportAreaId}")
     public ResponseEntity<String> addSupportArea(@PathVariable UUID supportAgentId, @PathVariable UUID supportAreaId) {
         String message = supportAgentService.addSupportArea(supportAgentId, supportAreaId);
@@ -76,7 +76,7 @@ public class SupportAgentController {
         return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
     }
 
-    // D4
+   
     @PatchMapping("/{supportAgentId}/workstation")
     public ResponseEntity<String> changeWorkstation(@PathVariable UUID supportAgentId, @RequestParam int stationNumber) {
         String message = supportAgentService.changeWorkstation(supportAgentId, stationNumber);

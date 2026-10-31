@@ -89,7 +89,7 @@ public class CustomerService {
         return customers;
     }
 
-    // C4 - empty Optional means the support agent does not exist
+    
     public Optional<List<Customer>> getBySupportAgent(UUID supportAgentId) {
         if (!supportAgentRepository.existsById(supportAgentId)) {
             logger.warn("Customer lookup by support agent returned no result; supportAgentId={} status=not_found",

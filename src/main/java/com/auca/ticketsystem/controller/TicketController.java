@@ -24,7 +24,7 @@ public class TicketController {
         this.ticketService = ticketService;
     }
 
-    // A2 + D1
+    
     @PostMapping("/save")
     public ResponseEntity<String> save(@RequestBody Ticket ticket) {
         String message = ticketService.save(ticket);
@@ -41,13 +41,13 @@ public class TicketController {
         return new ResponseEntity<>(ticketService.getAll(), HttpStatus.OK);
     }
 
-    // B2
+   
     @GetMapping("/by-status")
     public ResponseEntity<List<Ticket>> byStatus(@RequestParam TicketStatus status) {
         return new ResponseEntity<>(ticketService.getByStatus(status), HttpStatus.OK);
     }
 
-    // B3 - the Strings are parsed into LocalDate here in the controller
+    
     @GetMapping("/between")
     public ResponseEntity<List<Ticket>> between(@RequestParam String start, @RequestParam String end) {
         LocalDate startDate = LocalDate.parse(start);
@@ -55,13 +55,13 @@ public class TicketController {
         return new ResponseEntity<>(ticketService.getBetween(startDate, endDate), HttpStatus.OK);
     }
 
-    // F1
+    
     @GetMapping("/stats/by-status")
     public ResponseEntity<List<Object[]>> statsByStatus() {
         return new ResponseEntity<>(ticketService.countByStatus(), HttpStatus.OK);
     }
 
-    // Bonus: GET /api/tickets/page?page=0&size=5&sort=openedDate,desc
+    
     @GetMapping("/page")
     public ResponseEntity<Page<Ticket>> page(@RequestParam(defaultValue = "0") int page,
                                              @RequestParam(defaultValue = "5") int size,
@@ -88,7 +88,7 @@ public class TicketController {
                 ? HttpStatus.OK : HttpStatus.CONFLICT);
     }
 
-    // A2 + E3
+   
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> delete(@PathVariable UUID id) {
         String message = ticketService.delete(id);
@@ -98,7 +98,7 @@ public class TicketController {
         return new ResponseEntity<>(message, HttpStatus.CONFLICT);
     }
 
-    // D2
+    
     @PatchMapping("/{id}/status")
     public ResponseEntity<String> changeStatus(@PathVariable UUID id, @RequestParam TicketStatus status) {
         String message = ticketService.changeStatus(id, status);
@@ -110,7 +110,7 @@ public class TicketController {
         return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
     }
 
-    // F2
+    
     @PatchMapping("/cancel-day")
     public ResponseEntity<String> cancelDay(@RequestParam UUID supportAgentId, @RequestParam String date) {
         LocalDate day = LocalDate.parse(date);

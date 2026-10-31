@@ -232,7 +232,7 @@ public class TicketService {
     private record AgentWorkload(SupportAgent agent, long openTickets) {
     }
 
-    // A2 + E3: a ticket with resolution notes cannot be deleted
+    
     public String delete(UUID id) {
         logger.debug("Deleting ticket {}", id);
         Optional<Ticket> found = ticketRepository.findById(id);
@@ -249,17 +249,17 @@ public class TicketService {
         return "Ticket deleted successfully";
     }
 
-    // B2
+    
     public List<Ticket> getByStatus(TicketStatus status) {
         return ticketRepository.findByStatusOrderByOpenedDateAsc(status);
     }
 
-    // B3
+    
     public List<Ticket> getBetween(LocalDate start, LocalDate end) {
         return ticketRepository.findByOpenedDateBetweenOrderByOpenedDateAsc(start, end);
     }
 
-    // D2 (status flow)
+    
     public String changeStatus(UUID id, TicketStatus newStatus) {
         logger.debug("Changing ticket {} status to {}", id, newStatus);
         Optional<Ticket> found = ticketRepository.findById(id);
@@ -283,12 +283,12 @@ public class TicketService {
         return "Ticket status updated successfully";
     }
 
-    // F1
+   
     public List<Object[]> countByStatus() {
         return ticketRepository.ticketCountsByStatus();
     }
 
-    // F2: one UPDATE query, the real number comes from the database
+    
     @Transactional
     public String cancelDay(UUID supportAgentId, LocalDate date) {
         logger.info("Cancelling eligible tickets for agent {} on {}", supportAgentId, date);
@@ -299,7 +299,7 @@ public class TicketService {
         return cancelled + " tickets cancelled";
     }
 
-    // Bonus: paging
+    
     public Page<Ticket> getPage(Pageable pageable) {
         return ticketRepository.findAll(pageable);
     }

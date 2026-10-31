@@ -11,7 +11,6 @@ import java.util.*;
 @Repository
 public interface SupportAreaRepository extends JpaRepository<SupportArea, UUID> {
 
-    // C3 - JPQL: support areas that no support agent holds (IS EMPTY, no counting)
     @Query("SELECT a FROM SupportArea a WHERE a.agents IS EMPTY")
     List<SupportArea> findUnused();
 }

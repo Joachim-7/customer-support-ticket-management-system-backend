@@ -58,13 +58,13 @@ public class CustomerController {
         return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
     }
 
-    // B1
+   
     @GetMapping("/by-last-name")
     public ResponseEntity<List<Customer>> byLastName(@RequestParam String lastName) {
         return new ResponseEntity<>(customerService.getByLastName(lastName), HttpStatus.OK);
     }
 
-    // C4
+    
     @GetMapping("/of-support-agent/{supportAgentId}")
     public ResponseEntity<Object> ofSupportAgent(@PathVariable UUID supportAgentId) {
         Optional<List<Customer>> found = customerService.getBySupportAgent(supportAgentId);

@@ -50,12 +50,12 @@ public class ResolutionNoteService {
         return resolutionNoteRepository.findAll();
     }
 
-    // E2
+   
     public List<ResolutionNote> getByCustomer(String accountNumber) {
         return resolutionNoteRepository.findByCustomerAccountNumber(accountNumber);
     }
 
-    // E3
+    
     public String delete(UUID id) {
         if (!resolutionNoteRepository.existsById(id)) {
             logger.warn("Resolution note deletion rejected; resolutionNoteId={} status=not_found", id);

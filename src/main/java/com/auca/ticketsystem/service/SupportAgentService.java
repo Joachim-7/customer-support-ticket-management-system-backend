@@ -72,12 +72,12 @@ public class SupportAgentService {
         return "Support agent deleted successfully";
     }
 
-    // C1
+
     public List<SupportAgent> getBySupportArea(String name) {
         return supportAgentRepository.findBySupportAreaName(name);
     }
 
-    // D3 - the owning side (SupportAgent) stores the many-to-many link
+    
     public String addSupportArea(UUID supportAgentId, UUID supportAreaId) {
         Optional<SupportAgent> foundAgent = supportAgentRepository.findById(supportAgentId);
         if (foundAgent.isEmpty()) {
@@ -99,7 +99,7 @@ public class SupportAgentService {
         return "Support area added to the support agent";
     }
 
-    // D4
+   
     public String changeWorkstation(UUID supportAgentId, int stationNumber) {
         Optional<SupportAgent> foundAgent = supportAgentRepository.findById(supportAgentId);
         if (foundAgent.isEmpty()) {

@@ -19,7 +19,7 @@ public class ResolutionNoteController {
         this.resolutionNoteService = resolutionNoteService;
     }
 
-    // E1
+    
     @PostMapping("/save")
     public ResponseEntity<String> save(@RequestParam UUID ticketId, @RequestBody ResolutionNote resolutionNote) {
         String message = resolutionNoteService.save(ticketId, resolutionNote);
@@ -36,13 +36,13 @@ public class ResolutionNoteController {
         return new ResponseEntity<>(resolutionNoteService.getAll(), HttpStatus.OK);
     }
 
-    // E2
+    
     @GetMapping("/customer/{accountNumber}")
     public ResponseEntity<List<ResolutionNote>> byCustomer(@PathVariable String accountNumber) {
         return new ResponseEntity<>(resolutionNoteService.getByCustomer(accountNumber), HttpStatus.OK);
     }
 
-    // E3
+   
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> delete(@PathVariable UUID id) {
         String message = resolutionNoteService.delete(id);

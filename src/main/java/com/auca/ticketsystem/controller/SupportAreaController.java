@@ -58,7 +58,7 @@ public class SupportAreaController {
         return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
     }
 
-    // C3
+    
     @GetMapping("/unused")
     public ResponseEntity<List<SupportArea>> unused() {
         return new ResponseEntity<>(supportAreaService.getUnused(), HttpStatus.OK);

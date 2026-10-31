@@ -11,11 +11,10 @@ import java.util.*;
 @Repository
 public interface WorkstationRepository extends JpaRepository<Workstation, UUID> {
 
-    // C2 - JPQL: workstations that no support agent occupies
+    
     @Query("SELECT w FROM Workstation w WHERE NOT EXISTS "
             + "(SELECT a FROM SupportAgent a WHERE a.workstation = w) ORDER BY w.stationNumber")
     List<Workstation> findFree();
 
-    // D4 - DERIVED
     Optional<Workstation> findByStationNumber(int stationNumber);
 }

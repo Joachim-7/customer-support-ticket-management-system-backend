@@ -73,7 +73,7 @@ public class WorkstationService {
         return "Workstation deleted successfully";
     }
 
-    // C2
+    
     public List<Workstation> getFree() {
         List<Workstation> freeWorkstations = workstationRepository.findFree();
         logger.info("Free workstation lookup completed; resultCount={}", freeWorkstations.size());
