@@ -1,0 +1,309 @@
+{
+  "info": {
+    "_postman_id": "midterm-customer-support-ticket-management-system",
+    "name": "customer-support-ticket-management-system-midterm",
+    "description": "One request per requirement, named by its ID.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "A1",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/support-agents/all",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "support-agents", "all"]
+        },
+        "description": "Tables/relationships check: agents show workstation and supportAreas; the support areas do not show their agents (no JSON loop)."
+      },
+      "response": []
+    },
+    {
+      "name": "A2",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/support-areas/save",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "support-areas", "save"]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Priority Escalations\"\n}",
+          "options": { "raw": { "language": "json" } }
+        },
+        "description": "Expect 201 'Support area saved successfully'. Delete the extra area afterwards so C3 still returns only Account Recovery."
+      },
+      "response": []
+    },
+    {
+      "name": "B1",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/customers/by-last-name?lastName=nkusi",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "customers", "by-last-name"],
+          "query": [{ "key": "lastName", "value": "nkusi" }]
+        },
+        "description": "Expect Alice and Bob Nkusi, sorted by firstName."
+      },
+      "response": []
+    },
+    {
+      "name": "B2",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/tickets/by-status?status=OPEN",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "tickets", "by-status"],
+          "query": [{ "key": "status", "value": "OPEN" }]
+        },
+        "description": "Earliest openedDate first."
+      },
+      "response": []
+    },
+    {
+      "name": "B3",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/tickets/between?start=2026-10-01&end=2026-10-31",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "tickets", "between"],
+          "query": [
+            { "key": "start", "value": "2026-10-01" },
+            { "key": "end", "value": "2026-10-31" }
+          ]
+        },
+        "description": "Both dates inclusive, ordered by openedDate."
+      },
+      "response": []
+    },
+    {
+      "name": "C1",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/support-agents/by-support-area?name=billing",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "support-agents", "by-support-area"],
+          "query": [{ "key": "name", "value": "billing" }]
+        },
+        "description": "Expect Grace and Diane."
+      },
+      "response": []
+    },
+    {
+      "name": "C2",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/workstations/free",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "workstations", "free"]
+        },
+        "description": "Expect workstation 4 with the seed data."
+      },
+      "response": []
+    },
+    {
+      "name": "C3",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/support-areas/unused",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "support-areas", "unused"]
+        },
+        "description": "Expect Account Recovery with the seed data."
+      },
+      "response": []
+    },
+    {
+      "name": "C4",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/customers/of-support-agent/{{agent1Id}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "customers", "of-support-agent", "{{agent1Id}}"]
+        },
+        "description": "Each customer once, even with many tickets."
+      },
+      "response": []
+    },
+    {
+      "name": "D1",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/tickets/save",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "tickets", "save"]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"openedDate\": \"2026-12-01\",\n  \"status\": \"RESOLVED\",\n  \"subject\": \"Printer offline\",\n  \"priority\": \"Medium\",\n  \"customer\": {\n    \"id\": \"{{customer3Id}}\"\n  },\n  \"agent\": {\n    \"id\": \"{{agent3Id}}\"\n  }\n}",
+          "options": { "raw": { "language": "json" } }
+        },
+        "description": "Expect 201; the new ticket is OPEN even though the body says RESOLVED. Send it twice: the second time is 409."
+      },
+      "response": []
+    },
+    {
+      "name": "D2",
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/tickets/{{ticket5Id}}/status?status=IN_PROGRESS",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "tickets", "{{ticket5Id}}", "status"],
+          "query": [{ "key": "status", "value": "IN_PROGRESS" }]
+        },
+        "description": "OPEN -> IN_PROGRESS: expect 200 'Ticket status updated successfully'."
+      },
+      "response": []
+    },
+    {
+      "name": "D3",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/support-agents/{{agent2Id}}/support-areas/{{billingAreaId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "support-agents", "{{agent2Id}}", "support-areas", "{{billingAreaId}}"]
+        },
+        "description": "Expect 200 'Support area added to the support agent'; the old area stays."
+      },
+      "response": []
+    },
+    {
+      "name": "D4",
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/support-agents/{{agent2Id}}/workstation?stationNumber=4",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "support-agents", "{{agent2Id}}", "workstation"],
+          "query": [{ "key": "stationNumber", "value": "4" }]
+        },
+        "description": "Expect 200 'Workstation changed successfully'; then C2 shows workstation 2 as free."
+      },
+      "response": []
+    },
+    {
+      "name": "E1",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/resolution-notes/save?ticketId={{ticket9Id}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "resolution-notes", "save"],
+          "query": [{ "key": "ticketId", "value": "{{ticket9Id}}" }]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"resolutionType\": \"Password reset\",\n  \"description\": \"Reset done and customer notified by SMS\",\n  \"minutesSpent\": 15\n}",
+          "options": { "raw": { "language": "json" } }
+        },
+        "description": "Ticket 9 is RESOLVED: expect 201 'Resolution note saved successfully'."
+      },
+      "response": []
+    },
+    {
+      "name": "E2",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/resolution-notes/customer/{{accountNumber}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "resolution-notes", "customer", "{{accountNumber}}"]
+        },
+        "description": "Notes of Alice Nkusi, newest resolvedDate first."
+      },
+      "response": []
+    },
+    {
+      "name": "E3",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/resolution-notes/delete/{{note1Id}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "resolution-notes", "delete", "{{note1Id}}"]
+        },
+        "description": "Expect 200 'Resolution note deleted successfully'."
+      },
+      "response": []
+    },
+    {
+      "name": "F1",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/tickets/stats/by-status",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "tickets", "stats", "by-status"]
+        },
+        "description": "One row per status, e.g. [[\"OPEN\",4],[\"RESOLVED\",3]]."
+      },
+      "response": []
+    },
+    {
+      "name": "F2",
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/tickets/cancel-day?supportAgentId={{agent1Id}}&date=2026-10-20",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "tickets", "cancel-day"],
+          "query": [
+            { "key": "supportAgentId", "value": "{{agent1Id}}" },
+            { "key": "date", "value": "2026-10-20" }
+          ]
+        },
+        "description": "Seed data: expect '2 tickets cancelled' (RESOLVED tickets are skipped)."
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8080" },
+    { "key": "billingAreaId", "value": "" },
+    { "key": "agent1Id", "value": "" },
+    { "key": "agent2Id", "value": "" },
+    { "key": "agent3Id", "value": "" },
+    { "key": "customer3Id", "value": "" },
+    { "key": "ticket5Id", "value": "" },
+    { "key": "ticket9Id", "value": "" },
+    { "key": "accountNumber", "value": "" },
+    { "key": "note1Id", "value": "" }
+  ]
+}
